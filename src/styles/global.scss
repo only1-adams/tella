@@ -1,0 +1,79 @@
+code {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+// Mantine overrides
+
+// Other styles
+
+// Giving mantine table first column some padding
+
+.datatable tr th:first-child .mantine-TableHeadCell-Content,
+.datatable tr th:first-child .mantine-InputWrapper-root {
+  margin-left: 25px;
+}
+
+.datatable tbody tr td:first-child {
+  padding-left: 40px;
+}
+
+.datatable {
+  right: 10px;
+}
+
+.datatable .datatable-row.active {
+  background-color: saddlebrown;
+}
+
+// Normal table
+
+.normal-table th {
+  font-weight: 700 !important;
+}
+
+// hover table
+
+.hover-table tr:hover {
+  cursor: pointer;
+}
+
+// form inputs
+.mantine-InputWrapper-error,
+.mantine-InputWrapper-description {
+  font-size: 13px;
+}
+
+.mantine-Breadcrumbs-root {
+  overflow: hidden;
+}
+/* Set content for font-families */
+.ql-font-arial,
+.ql-font span[data-value="arial"]::before {
+  font-family: Arial, sans-serif;
+}
+
+.ql-font-comic-sans,
+.ql-font span[data-value="comic-sans"]::before {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.ql-font-courier-new,
+.ql-font span[data-value="courier-new"]::before {
+  font-family: "Courier New";
+}
+
+.ql-font-georgia,
+.ql-font span[data-value="georgia"]::before {
+  font-family: Georgia, serif;
+}
+
+.ql-font-helvetica,
+.ql-font span[data-value="helvetica"]::before {
+  font-family: Helvetica, sans-serif;
+}
+
+.ql-font-lucida,
+.ql-font span[data-value="lucida"]::before {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
