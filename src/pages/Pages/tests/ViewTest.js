@@ -647,8 +647,11 @@ const ViewTest = props => {
         </div> */}
         <PrintLayout
           title="Questions"
-          manPDF={chunkArray(sortedQuestions, 6)}
+          pagesQuestions={chunkArray(sortedQuestions, 6)}
           isQuestions={isQuestions}
+          totalQuestions={sortedQuestions.length}
+          timing={questions?.timing}
+          testTitle={questions?.test}
           elements={[<PrintHeader />, ...PrintBody()]}
         />
       </Box>

@@ -1,3 +1,5 @@
+import { image_url, image_url2 } from "config";
+
 export default function usePdf() {
   const generateQuestion = function ({ question, icon, index, choices, for2 }) {
     return `<td style="border-right: ${!for2 ? "1px solid #00000030" : ""}; padding-left:${
@@ -116,7 +118,14 @@ export default function usePdf() {
             </tr>`;
   };
 
-  const pageContent = function ({ contentsArr, pageNum, isQuestions }) {
+  const pageContent = function ({
+    contentsArr,
+    pageNum,
+    isQuestions,
+    testTile,
+    totalQuestions,
+    timing,
+  }) {
     const BodyContents = {
       firstHalf: [],
       secondHalf: [],
@@ -167,6 +176,38 @@ export default function usePdf() {
                 </head>
                 <body style="display: flex; align-items: center; justify-content: center">
                     <div style="width: 100%">
+                        ${
+                          pageNum === 1
+                            ? `<table cellspacing="0" style="width: 100%; margin-bottom:35px">
+                          <tr>
+                              <td>
+                                <div>
+                                  <img width="100" height="55" src="${
+                                    image_url +
+                                    "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ftella-logo.d913eb8b.png&w=256&q=75"
+                                  }"/>
+                                </div>
+                              </td>
+                              <td>
+                                <div style="text-align:center">
+                                  <p style="font-size:17px;font-weight:bold;margin:0px">${testTile}</p>
+                                  ${
+                                    !isQuestions
+                                      ? `<p style="font-size:17px;font-weight:medium;margin:0px">solutions</p>`
+                                      : ``
+                                  }
+                                </div>
+                              </td>
+                              <td>
+                                <div style="text-align:right">
+                                  <p style="font-size:17px;font-weight:medium;margin:0px">Total No. Of Questions: ${totalQuestions}</p>
+                                  <p style="font-size:17px;font-weight:medium;margin:0px">Total Time: ${timing} minutes</p>
+                                </div>
+                              </td>
+                          </tr>
+                        </table>`
+                            : ``
+                        }
                         <table cellspacing="0" style="width: 100%">
                             ${rows}
                         </table>

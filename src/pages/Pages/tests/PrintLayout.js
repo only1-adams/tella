@@ -58,11 +58,14 @@ const PrintLayout = props => {
   async function generateFile() {
     let pages = [];
 
-    props.manPDF.forEach((item, index) => {
+    props.pagesQuestions.forEach((item, index) => {
       const page = pageContent({
         contentsArr: item,
         pageNum: index + 1,
         isQuestions: props.isQuestions,
+        timing: props.timing,
+        totalQuestions: props.totalQuestions,
+        testTile: props.testTitle,
       });
       pages.push(page);
     });
@@ -102,26 +105,7 @@ const PrintLayout = props => {
 
       <Box mt={0} mb={0} p={10} pb={0} pt={0} ref={componentRef}>
         {props.elements?.map((e, index) => (
-          <Box
-            key={index}
-            mb={0}
-            ref={ref => {
-              if (ref !== null) {
-                // const prev_size = size;
-                // const curr_size = ref?.clientHeight;
-                // size = prev_size + curr_size;
-                // console.log(size);
-                // if (size < page_size) {
-                //   console.log(curr_size);
-                // } else {
-                //   const extra_margin = parseInt(page_size - prev_size);
-                //   console.log("not valid", extra_margin);
-                //   ref.style.marginTop = extra_margin + "px";
-                //   size = curr_size;
-                // }
-              }
-            }}
-          >
+          <Box key={index} mb={0}>
             {e}
           </Box>
         ))}
