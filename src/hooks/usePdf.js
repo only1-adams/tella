@@ -19,6 +19,7 @@ export default function usePdf() {
   };
 
   const generateSolution = function ({ index, value }) {
+    console.log(value);
     return `<td width="50%" style="border:1px solid black">
                 <div>
                     <p style="font-size: 15px; font-weight: bold; margin: 0;">
@@ -31,7 +32,7 @@ export default function usePdf() {
                         Choice: ${choiceToOption(value)}
                     </p>
                     ${
-                      value.choices.length > 0
+                      value.choices.length
                         ? `<img width="${choiceToIcon(value) !== "null" ? "50px" : "0px"}" src="${
                             choiceToIcon(value) !== "null" ? image_url2 + choiceToIcon(value) : ""
                           }" />`
@@ -39,7 +40,9 @@ export default function usePdf() {
                     }
                     ${
                       value?.answer[0]?.solution !== null
-                        ? `<img width="${choiceToIcon(value) !== "null" ? "50px" : "0px"}" src="${
+                        ? `<img width="${
+                            value?.answer[0]?.solution !== null ? "60%" : "0px"
+                          }" src="${
                             value?.answer[0]?.solution !== null
                               ? image_url2 + value?.answer[0]?.solution
                               : ``
@@ -250,7 +253,9 @@ export default function usePdf() {
                         </table>`
                             : ``
                         }
-                        <table cellspacing="0" style="width: 100%">
+                        <table cellpadding="${
+                          isQuestions ? 0 : 10
+                        }" cellspacing="0" style="width: 100%">
                             ${rows}
                         </table>
                         <div

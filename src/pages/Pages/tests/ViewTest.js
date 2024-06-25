@@ -342,6 +342,7 @@ const ViewTest = props => {
           ) : (
             ""
           )}
+          
           {props.value?.answer[0]?.solution !== null ? (
             <Image
               width={props.value?.answer[0]?.solution !== null ? "60%" : "0px"}
