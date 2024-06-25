@@ -2,9 +2,9 @@ import { image_url, image_url2 } from "config";
 
 export default function usePdf() {
   const generateQuestion = function ({ question, icon, index, choices, for2 }) {
-    return `<td style="border-right: ${!for2 ? "1px solid #00000030" : ""}; padding-left:${
-      !for2 ? "" : "10px"
-    }">
+    return `<td width="50%" style="border-right: ${
+      !for2 ? "1px solid #00000030" : ""
+    }; padding-left:${!for2 ? "" : "10px"}">
                 <div>
                     <p style="font-size: 15px; font-weight: bold; margin: 0;">
                         ${index}. <span>${question}</span>
@@ -19,15 +19,41 @@ export default function usePdf() {
   };
 
   const generateSolution = function ({ index, value }) {
-    return `<td style="border:1px solid black">
+    return `<td width="50%" style="border:1px solid black">
                 <div>
                     <p style="font-size: 15px; font-weight: bold; margin: 0;">
+                       Question ${index}
+                    </p>
+                    <p style="font-size: 15px; font-weight: medium; margin: 0;">
                         Solution:
                     </p>
-                    <p style="font-size: 15px; font-weight: bold; margin-top: 10px;">
+                    <p style="font-size: 15px; font-weight: medium; margin-top: 10px;">
                         Choice: ${choiceToOption(value)}
                     </p>
-                    
+                    ${
+                      value.choices.length > 0
+                        ? `<img width="${choiceToIcon(value) !== "null" ? "50px" : "0px"}" src="${
+                            choiceToIcon(value) !== "null" ? image_url2 + choiceToIcon(value) : ""
+                          }" />`
+                        : ``
+                    }
+                    ${
+                      value?.answer[0]?.solution !== null
+                        ? `<img width="${choiceToIcon(value) !== "null" ? "50px" : "0px"}" src="${
+                            value?.answer[0]?.solution !== null
+                              ? image_url2 + value?.answer[0]?.solution
+                              : ``
+                          }" />`
+                        : ``
+                    }
+
+                    ${
+                      value?.answer[0]?.solution_text?.includes("<!DOCTYPE html>")
+                        ? `<div>${value?.answer[0]?.solution_text}</div>`
+                        : `<p style="font-size: 15px; font-weight: medium; margin: 0;">${
+                            value?.answer[0]?.solution_text || ""
+                          }</p>`
+                    }
                 </div>
             </td>`;
   };
@@ -85,6 +111,22 @@ export default function usePdf() {
 
       default:
         return "";
+    }
+  };
+
+  const choiceToIcon = value => {
+    switch (value?.answer[0]?.answer) {
+      case "choice1":
+        return `${value?.choices[0]?.choice1_icon}`;
+      case "choice2":
+        return `${value?.choices[0]?.choice2_icon}`;
+      case "choice3":
+        return `${value?.choices[0]?.choice3_icon}`;
+      case "choice4":
+        return `${value?.choices[0]?.choice4_icon}`;
+
+      default:
+        return null;
     }
   };
 
