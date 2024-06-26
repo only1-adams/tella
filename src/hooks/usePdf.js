@@ -2,63 +2,30 @@ import { image_url, image_url2 } from "config";
 
 export default function usePdf() {
   const generateQuestion = function ({ question, icon, index, choices, for2 }) {
-    return `<td width="50%" style="border-right: ${
-      !for2 ? "1px solid #00000030" : ""
-    }; padding-left:${!for2 ? "" : "10px"}">
+    return `<div style="padding-left:${!for2 ? "" : "10px"}; word-break: break-all">
+                <p style="font-size: 14px; font-weight: bold; margin: 0; word-break: break-all;">
+                    ${index}. <span>${question}</span>
+                </p>
                 <div>
-                    <p style="font-size: 15px; font-weight: bold; margin: 0;">
-                        ${index}. <span>${question}</span>
-                    </p>
-                    <div>
-                        <ul style="list-style: upper-alpha; margin-top: 6px">
-                            ${generateChoices({ choices })}
-                        </ul>
-                    </div>
+                    <ul style="list-style: upper-alpha; margin-top: 6px; word-break: break-all; padding-left: 20px; font-size: 12px;">
+                        ${generateChoices({ choices })}
+                    </ul>
                 </div>
-            </td>`;
+            </div>`;
   };
 
   const generateSolution = function ({ index, value }) {
-    console.log(value);
-    return `<td width="50%" style="border:1px solid black">
-                <div>
-                    <p style="font-size: 15px; font-weight: bold; margin: 0;">
-                       Question ${index}
-                    </p>
-                    <p style="font-size: 15px; font-weight: medium; margin: 0;">
-                        Solution:
-                    </p>
-                    <p style="font-size: 15px; font-weight: medium; margin-top: 10px;">
-                        Choice: ${choiceToOption(value)}
-                    </p>
-                    ${
-                      value.choices.length
-                        ? `<img width="${choiceToIcon(value) !== "null" ? "50px" : "0px"}" src="${
-                            choiceToIcon(value) !== "null" ? image_url2 + choiceToIcon(value) : ""
-                          }" />`
-                        : ``
-                    }
-                    ${
-                      value?.answer[0]?.solution !== null
-                        ? `<img width="${
-                            value?.answer[0]?.solution !== null ? "60%" : "0px"
-                          }" src="${
-                            value?.answer[0]?.solution !== null
-                              ? image_url2 + value?.answer[0]?.solution
-                              : ``
-                          }" />`
-                        : ``
-                    }
-
-                    ${
-                      value?.answer[0]?.solution_text?.includes("<!DOCTYPE html>")
-                        ? `<div>${value?.answer[0]?.solution_text}</div>`
-                        : `<p style="font-size: 15px; font-weight: medium; margin: 0;">${
-                            value?.answer[0]?.solution_text || ""
-                          }</p>`
-                    }
-                </div>
-            </td>`;
+    return `<div style="border:1px solid black; padding: 10px;">
+                <p style="font-size: 14px; font-weight: bold; margin: 0;">
+                    Question: ${index}
+                </p>
+                <p style="font-size: 14px; font-weight: bold; margin: 0;">
+                    Solution:
+                </p>
+                <p style="font-size: 14px; font-weight: bold; margin-top: 10px;">
+                    Choice: ${choiceToOption(value)}
+                </p>
+            </div>`;
   };
 
   const choiceToOption = value => {
@@ -111,25 +78,8 @@ export default function usePdf() {
             ? ""
             : value?.choices[0]?.choice4
         }`;
-
       default:
         return "";
-    }
-  };
-
-  const choiceToIcon = value => {
-    switch (value?.answer[0]?.answer) {
-      case "choice1":
-        return `${value?.choices[0]?.choice1_icon}`;
-      case "choice2":
-        return `${value?.choices[0]?.choice2_icon}`;
-      case "choice3":
-        return `${value?.choices[0]?.choice3_icon}`;
-      case "choice4":
-        return `${value?.choices[0]?.choice4_icon}`;
-
-      default:
-        return null;
     }
   };
 
@@ -159,7 +109,9 @@ export default function usePdf() {
 
   const generateRow = function ({ col1, col2 }) {
     return `<tr>
-                ${col1} ${col2}
+                <td style="width: 49%; vertical-align: top; padding-right: 1%;">${col1}</td>
+                <td style="width: 2%; vertical-align: top; border-left: 1px solid black;"></td>
+                <td style="width: 49%; vertical-align: top; padding-left: 1%;">${col2}</td>
             </tr>`;
   };
 
@@ -218,20 +170,59 @@ export default function usePdf() {
                     <meta charset="UTF-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                     <title>PDF</title>
+                    <style>
+                        @page {
+                            size: A4;
+                            margin: 0;
+                        }
+                        body {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                            font-family: Arial, sans-serif;
+                            width: 210mm;
+                            height: 297mm;
+                            position: relative;
+                        }
+                        .content {
+                            padding: 20mm;
+                            height: calc(297mm - 130px - 40mm); /* 297mm - (header + footer + padding) */
+                            box-sizing: border-box;
+                        }
+                        .footer {
+                            position: absolute;
+                            bottom: 0;
+                            width: 100%;
+                            height: 100px;
+                            border-top: 2px solid #000000;
+                            border-bottom: 2px solid #000000;
+                            padding:20px 0;
+                            box-sizing: border-box;
+                            text-align: center;
+                            background-color: red;
+                        }
+                        .page-number {
+                            font-size: 15px;
+                            font-weight: 500;
+                            text-align: center;
+                            margin-top: 5px;
+                            position: absolute;
+                            bottom: 0;
+                            width: 100%;
+                            box-sizing: border-box;
+                        }
+                    </style>
                 </head>
-                <body style="display: flex; align-items: center; justify-content: center">
-                    <div style="width: 100%">
+                <body>
+                    <div style="width: 100%; box-sizing: border-box;">
                         ${
                           pageNum === 1
                             ? `<table cellspacing="0" style="width: 100%; margin-bottom:35px">
                           <tr>
                               <td>
                                 <div>
-                                  <img width="100" height="55" src="${
-                                    image_url +
-                                    "/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ftella-logo.d913eb8b.png&w=256&q=75"
-                                  }"/>
-                                </div>
+                                  <img style="width:100px" src="https://www.tellaclasses.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ftella-logo.d913eb8b.png&w=256&q=75"/>
+                                </div> 
                               </td>
                               <td>
                                 <div style="text-align:center">
@@ -253,26 +244,23 @@ export default function usePdf() {
                         </table>`
                             : ``
                         }
-                        <table cellpadding="${
-                          isQuestions ? 0 : 10
-                        }" cellspacing="0" style="width: 100%">
-                            ${rows}
-                        </table>
-                        <div
-                            style="
-                            height: 100px;
-                            border-top: 2px solid black;
-                            border-bottom: 2px solid black;
-                            margin-top: 10px;
-                            "
-                        >
-                            <p style="font-size:15px;font-weight:600; text-align:center;">Space for rough work</p>
+                        <div class="content">
+                            <table cellspacing="0" style="width: 100%">
+                                ${rows}
+                            </table>
                         </div>
-                        <p style="font-size:15px;font-weight:500; text-align:center; margin-top:5px">(${pageNum})</p>
+                        <p style="font-size:15px; font-weight:bold;  text-align: center; width:100%; font-weight:600; margin: 0; margin-top:10px">Space for rough work</p>
+                        <div style="width: 100%;
+                            height: 100px;
+                            border-top: 2px solid #000000;
+                            border-bottom: 2px solid #000000;
+                            box-sizing: border-box;
+                            text-align: center" class="footer">
+                        </div>
+                        <p style="text-align: center; width:100%;" class="page-number">(${pageNum})</p>
                     </div>
                 </body>
-            </html>
-        `;
+            </html>`;
   };
 
   return { pageContent };

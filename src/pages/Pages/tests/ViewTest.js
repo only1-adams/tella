@@ -342,7 +342,7 @@ const ViewTest = props => {
           ) : (
             ""
           )}
-          
+
           {props.value?.answer[0]?.solution !== null ? (
             <Image
               width={props.value?.answer[0]?.solution !== null ? "60%" : "0px"}
@@ -648,7 +648,7 @@ const ViewTest = props => {
         </div> */}
         <PrintLayout
           title="Questions"
-          pagesQuestions={chunkArray(sortedQuestions, 6)}
+          pagesQuestions={chunkArray(sortedQuestions, 8)}
           isQuestions={isQuestions}
           totalQuestions={sortedQuestions.length}
           timing={questions?.timing}
