@@ -3,14 +3,18 @@ import { image_url, image_url2 } from "config";
 import usePdf from "hooks/usePdf";
 import jsPDF from "jspdf";
 import { PDFDocument } from "pdf-lib";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
+
+import AppLoader from "./Loader";
 
 const PrintLayout = props => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const [isPrinting, setIsPrinting] = useState(false);
 
   const { pageContent } = usePdf();
 
@@ -58,6 +62,10 @@ const PrintLayout = props => {
   async function generateFile() {
     let pages = [];
 
+    setIsPrinting(true);
+
+    console.log(props.pagesQuestions);
+
     props.pagesQuestions.forEach((item, index) => {
       const page = pageContent({
         contentsArr: item,
@@ -88,6 +96,7 @@ const PrintLayout = props => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    setIsPrinting(false);
   }
 
   return (
@@ -102,6 +111,8 @@ const PrintLayout = props => {
           Print {props.title}
         </Button>
       </Flex>
+
+      {isPrinting && <AppLoader />}
 
       <Box mt={0} mb={0} p={10} pb={0} pt={0} ref={componentRef}>
         {props.elements?.map((e, index) => (
