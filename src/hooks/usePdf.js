@@ -121,7 +121,7 @@ export default function usePdf() {
     isQuestions,
     testTile,
     totalQuestions,
-    timing,
+    timing
   }) {
     const BodyContents = {
       firstHalf: [],
@@ -131,7 +131,7 @@ export default function usePdf() {
     let firstHalf = contentsArr.slice(0, midpoint);
     let secondHalf = contentsArr.slice(midpoint);
 
-    firstHalf.map(item => {
+    firstHalf.map((item, index) => {
       BodyContents.firstHalf.push(
         isQuestions
           ? generateQuestion({
@@ -139,6 +139,7 @@ export default function usePdf() {
               index: item.originalIndex + 1,
               choices: item.item.choices.length > 0 ? item.item.choices[0] : [],
               icon: item.item.icon,
+              subject: index === 0 ? item.item.subject_name :""
             })
           : generateSolution({ index: item.originalIndex + 1, value: item.item })
       );
@@ -246,18 +247,23 @@ export default function usePdf() {
                         }
                         <div class="content">
                             <table cellspacing="0" style="width: 100%">
+                              <tr>
+                                <td>
+                <p style="font-size: 14px; text-align:center; font-weight: bold; margin: 0; word-break: break-all;">${firstHalf[0].item.subject_name??""}</p>
+                              </td>
+                              </tr>
                                 ${rows}
                             </table>
                         </div>
-                        <p style="font-size:15px; font-weight:bold;  text-align: center; width:100%; font-weight:600; margin: 0; margin-top:10px">Space for rough work</p>
+                        
                         <div style="width: 100%;
-                            height: 100px;
+                            height: 70px;
                             border-top: 2px solid #000000;
                             border-bottom: 2px solid #000000;
                             box-sizing: border-box;
                             text-align: center" class="footer">
                         </div>
-                        <p style="text-align: center; width:100%;" class="page-number">(${pageNum})</p>
+                        <p style="font-size:12px; font-weight:bold;  text-align: center; width:100%; font-weight:600;">Space for rough work</p>
                     </div>
                 </body>
             </html>`;
