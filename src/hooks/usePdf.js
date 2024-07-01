@@ -2,10 +2,17 @@ import { image_url, image_url2 } from "config";
 
 export default function usePdf() {
   const generateQuestion = function ({ question, icon, index, choices, for2 }) {
+    console.log(question);
     return `<div style="padding-left:${!for2 ? "" : "10px"}; word-break: break-all">
+                <p style="font-size: 14px; font-weight: bold; margin: 0; word-break: break-all;">
+                    <span>${question.subject_name}</span>
+                </p>
                 <p style="font-size: 14px; font-weight: bold; margin: 0; word-break: break-all;">
                     ${index}. <span>${question}</span>
                 </p>
+                <img width="${icon !== null ? "50%" : "0px"}" src="${
+      icon !== null ? image_url2 + icon : ""
+    }"/>
                 <div>
                     <ul style="list-style: upper-alpha; margin-top: 6px; word-break: break-all; padding-left: 20px; font-size: 12px;">
                         ${generateChoices({ choices })}
@@ -88,19 +95,19 @@ export default function usePdf() {
 
     let choicesStr = ``;
 
-    if (choices.choice1 !== null) {
+    if (choices.choice1 !== "null") {
       choicesStr += ` <li>${choices.choice1}</li>`;
     }
 
-    if (choices.choice2 !== null) {
+    if (choices.choice2 !== "null") {
       choicesStr += ` <li>${choices.choice2}</li>`;
     }
 
-    if (choices.choice3 !== null) {
+    if (choices.choice3 !== "null") {
       choicesStr += ` <li>${choices.choice3}</li>`;
     }
 
-    if (choices.choice4 !== null) {
+    if (choices.choice4 !== "null") {
       choicesStr += ` <li>${choices.choice4}</li>`;
     }
 
