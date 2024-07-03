@@ -78,12 +78,11 @@ const PrintLayout = props => {
       pages.push(page);
     });
 
-    const bytes = await Promise.all(
-      pages.map(async page => {
-        const byte = await generatePDF(page);
-        return byte;
-      })
-    );
+    const bytes = [];
+    for (const page of pages) {
+      const byte = await generatePDF(page);
+      bytes.push(byte);
+    }
 
     const mergedPdfBytes = await mergePDFs(bytes);
 

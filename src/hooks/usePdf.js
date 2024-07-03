@@ -5,9 +5,6 @@ export default function usePdf() {
     console.log(question);
     return `<div style="padding-left:${!for2 ? "" : "10px"}; word-break: break-all">
                 <p style="font-size: 14px; font-weight: bold; margin: 0; word-break: break-all;">
-                    <span>${question.subject_name}</span>
-                </p>
-                <p style="font-size: 14px; font-weight: bold; margin: 0; word-break: break-all;">
                     ${index}. <span>${question}</span>
                 </p>
                 <img width="${icon !== null ? "50%" : "0px"}" src="${
@@ -128,7 +125,7 @@ export default function usePdf() {
     isQuestions,
     testTile,
     totalQuestions,
-    timing
+    timing,
   }) {
     const BodyContents = {
       firstHalf: [],
@@ -146,7 +143,6 @@ export default function usePdf() {
               index: item.originalIndex + 1,
               choices: item.item.choices.length > 0 ? item.item.choices[0] : [],
               icon: item.item.icon,
-              subject: index === 0 ? item.item.subject_name :""
             })
           : generateSolution({ index: item.originalIndex + 1, value: item.item })
       );
@@ -256,7 +252,9 @@ export default function usePdf() {
                             <table cellspacing="0" style="width: 100%">
                               <tr>
                                 <td>
-                <p style="font-size: 14px; text-align:center; font-weight: bold; margin: 0; word-break: break-all;">${firstHalf[0].item.subject_name??""}</p>
+                <p style="font-size: 14px; text-align:center; font-weight: bold; margin: 0; word-break: break-all;">${
+                  firstHalf[0].item.subject_name ?? ""
+                }</p>
                               </td>
                               </tr>
                                 ${rows}
